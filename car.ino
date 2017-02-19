@@ -53,6 +53,52 @@ String getRequest(String url) {
 // TODO implement writing !!! //
 ////////////////////////////////
 
+const string c_a = "LDTTRTTRTTURRTLDTTULTLTTTS";
+const string c_b = "DTTLTLTTRTRTRTRTLTULTTTS";
+const string c_c = "LTTRTTRRDTTLTTLTTUTS";
+const string c_d = "TTLTTRRDTTRTTRTRTTURTLTS";
+const string c_e = "LTRDTUTLTLDTTLTTLTTUTS";
+const string c_f = "LTRDTUTLTLDTTLTTULTTTS";
+const string c_g = "LTTRTTRRDTTLTTLTTLTLTULTLTTS";
+const string c_h = "LDTTURTTDRTTRRTLTTULTLTTTS";
+const string c_i = "DTTULTTDLTTRRTRTTULTTS";
+const string c_j = "LTRRDTLTTLTTULLTTLTS";
+const string c_k = "LDTTURTDTRRTLTRTRRTTRTULTS";
+const string c_L = "LTTRRDTTLTTUTS";
+const string c_m = "LDTTRTRTRRTRTRTTULTS";
+const string c_n = "LDTTRTTRTTULTS";
+const string c_o = "DTTLTTLTTLTTULTTTS";
+const string c_p = "LTRDTTLTLTTLTTULTTTS";
+const string c_q = "TTLDTTLTTLTLTTURTLTS";
+const string c_r = "LDTTRTRTRTRRTTRTULTS";
+const string c_s = "DTTLTLTTRTRTTURTTLTS";
+const string c_t = "LTTRDTTRRTLTTULTTS";
+const string c_u = "TTLDTTULTTLDTTLTTUTS";
+const string c_v = "DTLTTRTURRTTLDTTULTTTS";
+const string c_w = "LTTRRDTTLTLTRRTLTLTTURRTTLTS";
+const string c_x = "LTRDTTULTLTLDTTULTTS";
+const string c_y = "LTRDTTLTULTTLDTLTRTULTTS";
+const string c_z = "LTTRDTTRTRTTLTLTTUTS";
+
+const string c_0 = "TLDTTLTLTTLTUTS";
+const string c_1 = "LTTRDTTULTS";
+const string c_2 = "LTTRDTRTRTLTLTUTS";
+const string c_3 = "DTLTLTURTRDTRTTULTS";
+const string c_4 = "TLDTTULTLDTLTURTLTS";
+const string c_5 = "DTLTLTRTRTURTTLTS";
+const string c_6 = "LTTRRDTTLTLTLTULTLTTS";
+const string c_7 = "TLLRDTRTTULTS";
+const string c_8 = "LTRDTRTRTRTTRTRTUTLTS";
+const string c_9 = "TLDTTLTLTLTURTLTS";
+
+const string c_non_print = "DTTUTS";
+
+string character_commands[] = { c_0, c_1, c_2, c_3, c_4, c_5, c_6, c_7, c_8, c_9, 
+                                c_a, c_b, c_c, c_d, c_e, c_f, c_g, c_h, c_i, c_j, c_k, c_l, c_m,
+                                c_n, c_o, c_p, c_q, c_r, c_s, c_t, c_u, c_v, c_w, c_x, c_y, c_z };
+
+
+
 void stop(void)
 {
     analogWrite(5, 0);
@@ -91,7 +137,7 @@ void orientRight(){
   Serial.println(orientation);
 }
 
-void oneTick(){
+void tick(){
     Serial.println("forward");
     analogWrite(5, 1023);
     analogWrite(4, 1023);
@@ -107,7 +153,7 @@ void oneTick(){
     stop();
 }
 
-void left(){
+void turn_left(){
   Serial.println("left");
   analogWrite(5, 1023);
   analogWrite(4, 1023);
@@ -118,7 +164,7 @@ void left(){
   stop();
   
 }
-void right(){
+void turn_right(){
   Serial.println("right");
   analogWrite(5, 1023);
   analogWrite(4, 1023);
@@ -136,104 +182,62 @@ void transition(){
     oneTick();
   }else{
     Serial.println("ERROR robot cannot transition");
+    //TODO ask for reset? from user
   }
 }
- 
-void one(void)
-{
-    right();
-    //lower pen
-    oneTick();
-    oneTick();
-    //raise pen
-    right();
-    right();
-    oneTick();
-    oneTick();
-    right();
-    transition();  
+
+void pen_up(){
+//TODO this
 }
- 
-void two(void)
-{
-    //lower pen
-    oneTick();
-    right();
-    oneTick();
-    right();
-    oneTick();
-    left();
-    oneTick();
-    left();
-    oneTick();
-    //raise pen
-    left();
-    oneTick();
-    oneTick();
-    right();
-    transition();
+void pen_down(){
+//TODO this
 }
- 
-void three(void)
-{
-  //lower pen
-  oneTick();
-  right();
-  oneTick();
-  right();
-  oneTick();
-  left();
-  left();
-  oneTick();
-  right();
-  oneTick();
-  right();
-  oneTick();
-  //raise pen
-  right();
-  oneTick();
-  oneTick();
-  right();
-  oneTick();
-  transition();
-   
+
+String get_character_command(char character) {
+    if (character >= '0' && character <= '9') { 
+        return characters[character - '0'];
+    }
+    else {
+        char uppercase = character & 0xdf;
+        if (uppercase >= 'A' && uppercase <= 'Z') {
+            return characters[10 + uppercase - 'A'];
+        } else {
+            return c_non_print;
+        }
+    }
 }
- 
-void four(void)
-{
-  right();
-  //lower pen
-  oneTick();
-  left();
-  oneTick();
-  right();
-  oneTick();
-  left();
-  left();
-  oneTick();
-  oneTick();
-  right();
-  transition();   
+
+
+void draw_character(char character) {
+    String command = get_character_command(character);
+    for (int = 0; i < command.length(); ++i) {
+        switch(command[i]) {
+            case 'L': turn_left(); break;
+            case 'R': turn_right(); break;
+            case 'T': tick(); break;
+            case 'U': pen_up(); break;
+            case 'D': pen_down(); break;
+	    case 'S': transition(); break;
+        }
+    }
 }
+
+void draw_string(const string& message) {
+   for (int i = 0; i < message.length(); ++i) {
+        draw_character(message[i]);
+    }
+}
+
 void drawMessage() {
   message = getRequest("/tracerracer/car.php");
   String newMessage = message.substring(message.length()-1);
+  //TODO grab last line, not just last char
   Serial.println("begin##########################################");
   Serial.println(message);
   Serial.println("just the char I want");
   Serial.println(newMessage);
   Serial.println("end##########################################");
-  if(newMessage == "1"){
-    one();
-  }else if(newMessage == "2"){
-    two();
-  }else if(newMessage == "3"){
-    three();
-  }else if(newMessage == "4"){
-    four();
-  }
-  Serial.println(orientation);
-  
+  draw_string(newMessage);  
 }
 
 ///////////////////////////////////////
