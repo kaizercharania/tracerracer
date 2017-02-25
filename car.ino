@@ -6,8 +6,8 @@
 //////////////////////////////////////
 // SET THESE TO YOUR AP CREDENTIALS //
 //////////////////////////////////////
-const char* ssid = "Zoe's iPhone";
-const char* password = "b95xxiywmn9l";
+const char* ssid = "<YOURSSID>";
+const char* password = "<YOURPASSWORD>";
 
 const char* host = "jeremysorensen.site";
 const int httpPort = 80;
@@ -53,47 +53,47 @@ String getRequest(String url) {
 // TODO implement writing !!! //
 ////////////////////////////////
 
-const string c_a = "LDTTRTTRTTURRTLDTTULTLTTTS";
-const string c_b = "DTTLTLTTRTRTRTRTLTULTTTS";
-const string c_c = "LTTRTTRRDTTLTTLTTUTS";
-const string c_d = "TTLTTRRDTTRTTRTRTTURTLTS";
-const string c_e = "LTRDTUTLTLDTTLTTLTTUTS";
-const string c_f = "LTRDTUTLTLDTTLTTULTTTS";
-const string c_g = "LTTRTTRRDTTLTTLTTLTLTULTLTTS";
-const string c_h = "LDTTURTTDRTTRRTLTTULTLTTTS";
-const string c_i = "DTTULTTDLTTRRTRTTULTTS";
-const string c_j = "LTRRDTLTTLTTULLTTLTS";
-const string c_k = "LDTTURTDTRRTLTRTRRTTRTULTS";
-const string c_L = "LTTRRDTTLTTUTS";
-const string c_m = "LDTTRTRTRRTRTRTTULTS";
-const string c_n = "LDTTRTTRTTULTS";
-const string c_o = "DTTLTTLTTLTTULTTTS";
-const string c_p = "LTRDTTLTLTTLTTULTTTS";
-const string c_q = "TTLDTTLTTLTLTTURTLTS";
-const string c_r = "LDTTRTRTRTRRTTRTULTS";
-const string c_s = "DTTLTLTTRTRTTURTTLTS";
-const string c_t = "LTTRDTTRRTLTTULTTS";
-const string c_u = "TTLDTTULTTLDTTLTTUTS";
-const string c_v = "DTLTTRTURRTTLDTTULTTTS";
-const string c_w = "LTTRRDTTLTLTRRTLTLTTURRTTLTS";
-const string c_x = "LTRDTTULTLTLDTTULTTS";
-const string c_y = "LTRDTTLTULTTLDTLTRTULTTS";
-const string c_z = "LTTRDTTRTRTTLTLTTUTS";
+const String c_a = "LDTTRTTRTTURRTLDTTULTLTTT";
+const String c_b = "DTTLTLTTRTRTRTRTLTULTTT";
+const String c_c = "LTTRTTRRDTTLTTLTTUT";
+const String c_d = "TTLTTRRDTTRTTRTRTTURTLT";
+const String c_e = "LTRDTUTLTLDTTLTTLTTUT";
+const String c_f = "LTRDTUTLTLDTTLTTULTTT";
+const String c_g = "LTTRTTRRDTTLTTLTTLTLTULTLTT";
+const String c_h = "LDTTURTTDRTTRRTLTTULTLTTT";
+const String c_i = "DTTULTTDLTTRRTRTTULTT";
+const String c_j = "LTRRDTLTTLTTULLTTLT";
+const String c_k = "LDTTURTDTRRTLTRTRRTTRTULT";
+const String c_l = "LTTRRDTTLTTUT";
+const String c_m = "LDTTRTRTRRTRTRTTULT";
+const String c_n = "LDTTRTTRTTULT";
+const String c_o = "DTTLTTLTTLTTULTTT";
+const String c_p = "LTRDTTLTLTTLTTULTTT";
+const String c_q = "TTLDTTLTTLTLTTURTLT";
+const String c_r = "LDTTRTRTRTRRTTRTULT";
+const String c_s = "DTTLTLTTRTRTTURTTLT";
+const String c_t = "LTTRDTTRRTLTTULTT";
+const String c_u = "TTLDTTULTTLDTTLTTUT";
+const String c_v = "DTLTTRTURRTTLDTTULTTT";
+const String c_w = "LTTRRDTTLTLTRRTLTLTTURRTTLT";
+const String c_x = "LTRDTTULTLTLDTTULTT";
+const String c_y = "LTRDTTLTULTTLDTLTRTULTT";
+const String c_z = "LTTRDTTRTRTTLTLTTUT";
 
-const string c_0 = "TLDTTLTLTTLTUTS";
-const string c_1 = "LTTRDTTULTS";
-const string c_2 = "LTTRDTRTRTLTLTUTS";
-const string c_3 = "DTLTLTURTRDTRTTULTS";
-const string c_4 = "TLDTTULTLDTLTURTLTS";
-const string c_5 = "DTLTLTRTRTURTTLTS";
-const string c_6 = "LTTRRDTTLTLTLTULTLTTS";
-const string c_7 = "TLLRDTRTTULTS";
-const string c_8 = "LTRDTRTRTRTTRTRTUTLTS";
-const string c_9 = "TLDTTLTLTLTURTLTS";
+const String c_0 = "TLDTTLTLTTLTUT";
+const String c_1 = "LTTRDTTULT";
+const String c_2 = "LTTRDTRTRTLTLTUT";
+const String c_3 = "DTLTLTURTRDTRTTULT";
+const String c_4 = "TLDTTULTLDTLTURTLT";
+const String c_5 = "DTLTLTRTRTURTTLT";
+const String c_6 = "LTTRRDTTLTLTLTULTLTT";
+const String c_7 = "TLLRDTRTTULT";
+const String c_8 = "LTRDTRTRTRTTRTRTUTLT";
+const String c_9 = "TLDTTLTLTLTURTLT";
 
-const string c_non_print = "DTTUTS";
+const String c_non_print = "DTTUT";
 
-string character_commands[] = { c_0, c_1, c_2, c_3, c_4, c_5, c_6, c_7, c_8, c_9, 
+String character_commands[] = { c_0, c_1, c_2, c_3, c_4, c_5, c_6, c_7, c_8, c_9, 
                                 c_a, c_b, c_c, c_d, c_e, c_f, c_g, c_h, c_i, c_j, c_k, c_l, c_m,
                                 c_n, c_o, c_p, c_q, c_r, c_s, c_t, c_u, c_v, c_w, c_x, c_y, c_z };
 
@@ -175,16 +175,6 @@ void turn_right(){
   stop();
 }
 
-void transition(){
-  //assume robot ends facing east in prev number
-  if(orientation == 'E'){
-    //pen up
-    oneTick();
-  }else{
-    Serial.println("ERROR robot cannot transition");
-    //TODO ask for reset? from user
-  }
-}
 
 void pen_up(){
 //TODO this
@@ -195,12 +185,12 @@ void pen_down(){
 
 String get_character_command(char character) {
     if (character >= '0' && character <= '9') { 
-        return characters[character - '0'];
+        return character_commands[character - '0'];
     }
     else {
         char uppercase = character & 0xdf;
         if (uppercase >= 'A' && uppercase <= 'Z') {
-            return characters[10 + uppercase - 'A'];
+            return character_commands[10 + uppercase - 'A'];
         } else {
             return c_non_print;
         }
@@ -210,19 +200,18 @@ String get_character_command(char character) {
 
 void draw_character(char character) {
     String command = get_character_command(character);
-    for (int = 0; i < command.length(); ++i) {
+    for (int i = 0; i < command.length(); ++i) {
         switch(command[i]) {
             case 'L': turn_left(); break;
             case 'R': turn_right(); break;
             case 'T': tick(); break;
             case 'U': pen_up(); break;
             case 'D': pen_down(); break;
-	    case 'S': transition(); break;
         }
     }
 }
 
-void draw_string(const string& message) {
+void draw_string(const String& message) {
    for (int i = 0; i < message.length(); ++i) {
         draw_character(message[i]);
     }
@@ -230,7 +219,8 @@ void draw_string(const string& message) {
 
 void drawMessage() {
   message = getRequest("/tracerracer/car.php");
-  String newMessage = message.substring(message.length()-1);
+  
+  String newMessage = message.substring(159);
   //TODO grab last line, not just last char
   Serial.println("begin##########################################");
   Serial.println(message);
