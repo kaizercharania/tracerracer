@@ -6,12 +6,20 @@
 //////////////////////////////////////
 // SET THESE TO YOUR AP CREDENTIALS //
 //////////////////////////////////////
-const char* ssid = "<YOURSSID>";
-const char* password = "<YOURPASSWORD>";
+const char* ssid = "Zoe's iPhone";
+const char* password = "1234567890";
 
 const char* host = "jeremysorensen.site";
 const int httpPort = 80;
 char orientation = 'E';
+int tickTime = 200;
+int turnTime = 200;
+
+int motionPin=16;
+int lastMotion;
+int currentMotion;
+bool finishedDrawing;
+
 
 String message; // the message the car writes
 
@@ -143,13 +151,13 @@ void tick(){
     analogWrite(4, 1023);
     digitalWrite(0, HIGH);
     digitalWrite(2, HIGH);
-    delay(200);
+    delay(tickTime);
     stop();
     analogWrite(5, 1023);
     analogWrite(4, 1023);
     digitalWrite(0, HIGH);
     digitalWrite(2, HIGH);
-    delay(200);
+    delay(tickTime);
     stop();
 }
 
@@ -160,7 +168,7 @@ void turn_left(){
   digitalWrite(0, LOW);
   digitalWrite(2, HIGH);
   orientLeft();
-  delay(500);
+  delay(turnTime);
   stop();
   
 }
@@ -171,7 +179,7 @@ void turn_right(){
   digitalWrite(0, HIGH);
   digitalWrite(2, LOW);
   orientRight();
-  delay(500);
+  delay(turnTime);
   stop();
 }
 
@@ -215,9 +223,12 @@ void draw_string(const String& message) {
    for (int i = 0; i < message.length(); ++i) {
         draw_character(message[i]);
     }
+    finishedDrawing=true;
 }
 
 void drawMessage() {
+  finishedDrawing=false;
+  Serial.println(digitalRead(16));
   message = getRequest("/tracerracer/car.php");
   
   String newMessage = message.substring(159);
@@ -299,14 +310,28 @@ void setup(void){
   connectWifi();
   initCar();
   connectServer();
-  
+  finishedDrawing = true;
+  lastMotion=1;
+  currentMotion=1;
   pinMode(5, OUTPUT); // 1,2EN aka D1 pwm left
   pinMode(4, OUTPUT); // 3,4EN aka D2 pwm right
   pinMode(0, OUTPUT); // 1A,2A aka D3
   pinMode(2, OUTPUT); // 3A,4A aka D4
+  pinMode(motionPin, INPUT); //motion sensor
+//  attachInterrupt(motionPin, drawMessage, LOW);
 }
 
 void loop(void){
-  if (sensedSomething()) { drawMessage(); }
+  server.handleClient();
+  Serial.println(currentMotion);
+  currentMotion = digitalRead(motionPin);
+  if(currentMotion != lastMotion){
+      if(currentMotion == 0){
+          Serial.println("motion");
+          drawMessage();
+      }
+      delay(50);
+  }
+  lastMotion = currentMotion;
   server.handleClient();
 }
