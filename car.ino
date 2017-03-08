@@ -6,14 +6,15 @@
 //////////////////////////////////////
 // SET THESE TO YOUR AP CREDENTIALS //
 //////////////////////////////////////
-const char* ssid = "Zoe's iPhone";
-const char* password = "1234567890";
+const char* ssid = "TheWarren";
+const char* password = "Bezember";
 
 const char* host = "jeremysorensen.site";
 const int httpPort = 80;
 char orientation = 'E';
 int tickTime = 200;
-int turnTime = 200;
+int turnTime = 300;
+int penTime = 1000;
 
 int motionPin=16;
 int lastMotion;
@@ -56,10 +57,6 @@ String getRequest(String url) {
   }
   return response;
 }
-
-////////////////////////////////
-// TODO implement writing !!! //
-////////////////////////////////
 
 const String c_a = "LDTTRTTRTTURRTLDTTULTLTTT";
 const String c_b = "DTTLTLTTRTRTRTRTLTULTTT";
@@ -185,10 +182,18 @@ void turn_right(){
 
 
 void pen_up(){
-//TODO this
+  Serial.println("up");
+  analogWrite(14, 1023);
+  digitalWrite(13, HIGH);
+  delay(penTime);
+  analogWrite(14, 0);
 }
 void pen_down(){
-//TODO this
+  Serial.println("down");
+  analogWrite(14, 1023);
+  digitalWrite(13, LOW);
+  delay(penTime);
+  analogWrite(14, 0);
 }
 
 String get_character_command(char character) {
@@ -317,6 +322,11 @@ void setup(void){
   pinMode(4, OUTPUT); // 3,4EN aka D2 pwm right
   pinMode(0, OUTPUT); // 1A,2A aka D3
   pinMode(2, OUTPUT); // 3A,4A aka D4
+
+  pinMode(12, OUTPUT); // 4th motor speed
+  pinMode(13, OUTPUT); // 3rd motor dir
+  pinMode(14, OUTPUT); // 3rd motor speed
+  pinMode(15, OUTPUT); // 4th motor dir
   pinMode(motionPin, INPUT); //motion sensor
 //  attachInterrupt(motionPin, drawMessage, LOW);
 }
