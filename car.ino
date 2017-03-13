@@ -6,15 +6,18 @@
 //////////////////////////////////////
 // SET THESE TO YOUR AP CREDENTIALS //
 //////////////////////////////////////
-const char* ssid = "TheWarren";
-const char* password = "Bezember";
+const char* ssid = "Zoe's iPhone";
+const char* password = "1234567890";
 
 const char* host = "jeremysorensen.site";
 const int httpPort = 80;
 char orientation = 'E';
-int tickTime = 200;
-int turnTime = 300;
-int penTime = 1000;
+int tickTime = 400;
+int turnTime = 600;
+int penTime = 300;
+
+int tickSpeed = 1023;
+int turnSpeed = 1023;
 
 int motionPin=16;
 int lastMotion;
@@ -144,14 +147,8 @@ void orientRight(){
 
 void tick(){
     Serial.println("forward");
-    analogWrite(5, 1023);
-    analogWrite(4, 1023);
-    digitalWrite(0, HIGH);
-    digitalWrite(2, HIGH);
-    delay(tickTime);
-    stop();
-    analogWrite(5, 1023);
-    analogWrite(4, 1023);
+    analogWrite(5, tickSpeed);
+    analogWrite(4, tickSpeed-75);
     digitalWrite(0, HIGH);
     digitalWrite(2, HIGH);
     delay(tickTime);
@@ -160,10 +157,10 @@ void tick(){
 
 void turn_left(){
   Serial.println("left");
-  analogWrite(5, 1023);
-  analogWrite(4, 1023);
-  digitalWrite(0, LOW);
-  digitalWrite(2, HIGH);
+  analogWrite(5, turnSpeed);
+  analogWrite(4, turnSpeed-100);
+  digitalWrite(0, HIGH);
+  digitalWrite(2, LOW);
   orientLeft();
   delay(turnTime);
   stop();
@@ -171,10 +168,10 @@ void turn_left(){
 }
 void turn_right(){
   Serial.println("right");
-  analogWrite(5, 1023);
-  analogWrite(4, 1023);
-  digitalWrite(0, HIGH);
-  digitalWrite(2, LOW);
+  analogWrite(5, turnSpeed);
+  analogWrite(4, turnSpeed-100);
+  digitalWrite(0, LOW);
+  digitalWrite(2, HIGH);
   orientRight();
   delay(turnTime);
   stop();
@@ -183,17 +180,12 @@ void turn_right(){
 
 void pen_up(){
   Serial.println("up");
-  analogWrite(14, 1023);
-  digitalWrite(13, HIGH);
+  analogWrite(13, 750);
   delay(penTime);
-  analogWrite(14, 0);
+  analogWrite(13, 0);
 }
 void pen_down(){
-  Serial.println("down");
-  analogWrite(14, 1023);
-  digitalWrite(13, LOW);
-  delay(penTime);
-  analogWrite(14, 0);
+  pen_up();
 }
 
 String get_character_command(char character) {
@@ -214,6 +206,7 @@ String get_character_command(char character) {
 void draw_character(char character) {
     String command = get_character_command(character);
     for (int i = 0; i < command.length(); ++i) {
+        delay(1000);
         switch(command[i]) {
             case 'L': turn_left(); break;
             case 'R': turn_right(); break;
@@ -333,11 +326,11 @@ void setup(void){
 
 void loop(void){
   server.handleClient();
-  Serial.println(currentMotion);
+  //Serial.println(currentMotion);
   currentMotion = digitalRead(motionPin);
   if(currentMotion != lastMotion){
       if(currentMotion == 0){
-          Serial.println("motion");
+          //Serial.println("motion");
           drawMessage();
       }
       delay(50);
