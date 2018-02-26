@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+  <head>
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script> 
+
+   <script>
+     $(document).ready(function(){
+         $("#update").click(function(){
+             var timezone = $("option:selected").attr("value");
+             var zipcode = $("#zip_text").val();
+             var messageType = "time";
+             if ($("#time_check").is(":checked"))
+             {
+                 messageType = "time";
+             } else if ($("#temp_check").is(":checked"))
+             {
+                 messageType = "temp";
+             } else
+             {
+                 messageType = "custom";
+             }
+             var message = $("#custom_text").val();
+             url = "settings.php?timezone=" + timezone + "&zipcode=" + zipcode + 
+                 "&messagetype=" + messageType + "&message=" + message;
+             //$.get(url, function(data, status){
+             //    alert("Data: " + data + "\nStatus: " + status);
+             //});
+             $.post(url);
+         });
+         $("#start").click(function(){
+             url = "start.php";
+             $.get(url, function(data, status){
+                  $.post(data);
+             });
+         });
+     });
+     </script>
+	<link rel="stylesheet" type="text/css" href="stylesheet.css"> 
+     <title>Tracer Racer</title>
+   
+</head>
+   <body> 
+     <h1>Tracer Racer</h1>
+     <p>
+	<section>
+       <h2>Select Timezone</h2>
+       <select>
+         <option value="America/Adak">Adak</option>
+         <option value="America/Anchorage">Anchorage</option>
+         <option value="America/Boise">Boise</option>
+         <option value="America/Chicago">Chicago</option>
+         <option value="America/Denver">Denver</option>
+         <option value="America/Detroit">Detroit</option>
+         <option value="America/Indiana/Indianapolis">Indiana/Indianapolis</option>
+         <option value="America/Indiana/Knox">Indiana/Knox</option>
+         <option value="America/Indiana/Marengo">Indiana/Marengo</option>
+         <option value="America/Indiana/Petersburg">Indiana/Petersburg</option>
+         <option value="America/Indiana/Tell_City">Indiana/Tell City</option>
+         <option value="America/Indiana/Vevay">Indiana/Vevay</option>
+         <option value="America/Indiana/Vincennes">Indiana/Vincennes</option>
+         <option value="America/Indiana/Winamac">Indiana/Winamac</option>
+         <option value="America/Juneau">Juneau</option>
+         <option value="America/Kentucky/Louisville">Kentucky/Louisville</option>
+         <option value="America/Kentucky/Monticello">Kentucky/Monticello</option>
+         <option value="America/Los_Angeles" selected>Los Angeles</option>
+         <option value="America/Menominee">Menominee</option>
+         <option value="America/Metlakatla">Metlakatla</option>
+         <option value="America/New_York">New York</option>
+         <option value="America/Nome">Nome</option>
+         <option value="America/North_Dakota/Beulah">North Dakota/Beulah</option>
+         <option value="America/North_Dakota/Center">North Dakota/Center</option>
+         <option value="America/North_Dakota/New_Salem">North Dakota/New Salem</option>
+         <option value="America/Phoenix">Phoenix</option>
+         <option value="America/Shiprock">Shiprock</option>
+         <option value="America/Sitka">Sitka</option>
+         <option value="America/Yakutat">Yakutat</option>
+         <option value="Pacific/Honolulu">Honolulu</option>
+       </select>
+	</section>
+    </p>
+    <p>
+	<section>
+       <h2>Enter Zip Code</h2>
+       <form action="">
+         <input type="text" id="zip_text" value="95051" maxlength="5">
+       </form>
+	</section>
+    </p>
+    <p>
+	<section>
+       <h2>Choose Message Type</h2>
+       <form action="">
+         <input type="radio" id="time_check" name="messageType" checked> Time <br>
+         <input type="radio" id="temp_check" name="messageType"> Temperature (Fahrenheit) <br>
+         <input type="radio" id="custom_check" name="messageType"> Custom Message (Max. 10 Characters) <br>
+         <input type="text" id="custom_text" value="hello" maxlength="10"> <br> 
+       </form>
+	</section>
+    </p>
+    <p>
+	<section>
+     <p>
+       <button id=update>Update Settings</button>
+     </p>
+     <p> 
+       <button id=start>Start Car</button>
+     </p>
+	</section>
+    </p>
+  </body>
+</html>
